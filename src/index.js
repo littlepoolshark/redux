@@ -14,7 +14,9 @@ function isCrushed() {}
 if (
   typeof process !== 'undefined' &&
   process.env.NODE_ENV !== 'production' &&
-  typeof isCrushed.name === 'string' &&//Firefox,Safari,Chrome和Opera都函数定义了一个非标准的name属性
+  //Firefox,Safari,Chrome和Opera都函数定义了一个非标准的name属性
+  //通过判断someFunction.name是否等于“someFunction”就可以判断当前代码是否被压缩
+  typeof isCrushed.name === 'string' &&
   isCrushed.name !== 'isCrushed'
 ) {
   warning(
