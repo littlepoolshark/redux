@@ -14,7 +14,7 @@ function isCrushed() {}
 if (
   typeof process !== 'undefined' &&
   process.env.NODE_ENV !== 'production' &&
-  typeof isCrushed.name === 'string' &&
+  typeof isCrushed.name === 'string' &&//Firefox,Safari,Chrome和Opera都函数定义了一个非标准的name属性
   isCrushed.name !== 'isCrushed'
 ) {
   warning(
