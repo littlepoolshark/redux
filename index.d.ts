@@ -15,6 +15,7 @@
  */
 export interface Action {
   type: any;
+  [key: string]: any;
 }
 
 
@@ -94,7 +95,7 @@ export function combineReducers<S>(reducers: ReducersMapObject): Reducer<S>;
  * before passing them to the next middleware.
  */
 export interface Dispatch<S> {
-    <A extends Action>(action: A): A;
+  <A extends Action>(action: A): A;
 }
 
 /**
