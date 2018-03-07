@@ -94,6 +94,14 @@ export function combineReducers<S>(reducers: ReducersMapObject): Reducer<S>;
  * transform, delay, ignore, or otherwise interpret actions or async actions
  * before passing them to the next middleware.
  */
+
+/**
+ * 在这里作者指出了，我们要区分两个概念。一个是一般意义上说的“dispatching function”，
+ * 另外一个没有经过中间件加工的，由store实例提供的原始“dispatch function”。
+ * 
+ * 中间件就是通过对原始的“dispatch function”进行包裹和加工，从而达到转换，延迟，忽略，拦截某个action或者将action
+ * 异步化的效果。
+ */
 export interface Dispatch<S> {
   <A extends Action>(action: A): A;
 }
@@ -111,6 +119,12 @@ export interface Unsubscribe {
  * happens on the reducer level.
  *
  * @template S State object type.
+ */
+
+/**
+ * redux里面的store本质上就是一个由createStore返回的plain javascript object，
+ * 代表着一个收纳着几个方法的集合。
+ * store具有五个“方法”：dispatch,subcribe,getStae,replaceReducer和observable（如何使用observable目前还不清楚）
  */
 export interface Store<S> {
   /**
@@ -267,6 +281,30 @@ export interface MiddlewareAPI<S> {
  * Middleware is composable using function composition. It is useful for
  * logging actions, performing side effects like routing, or turning an
  * asynchronous API call into a series of synchronous actions.
+ * 
+ * 下面我们来看一下中间件redux-thunk的源代码
+ * function createThunkMiddleware(extraArgument) {
+    return ({ dispatch, getState }) => next => action => {
+      if (typeof action === 'function') {
+        return action(dispatch, getState, extraArgument);
+      }
+
+      return next(action);
+    };
+  }
+
+  const thunk = createThunkMiddleware();
+  thunk.withExtraArgument = createThunkMiddleware;
+
+  export default thunk;
+ */
+/**
+ * 
+ * 一个中间件middleware用ES6语法来写如下：
+ * const middleware=store => next => action => {
+ *    //some code here
+ *    return next(action)//也可以不return，不return的话就是不调用下一个middleware
+ * }
  */
 export interface Middleware {
   <S>(api: MiddlewareAPI<S>): (next: Dispatch<S>) => Dispatch<S>;
@@ -343,6 +381,9 @@ export interface ActionCreatorsMapObject {
  */
 export function bindActionCreators<A extends ActionCreator<any>>(actionCreator: A, dispatch: Dispatch<any>): A;
 
+/**
+ * 这个类型暂时看不懂 
+ */
 export function bindActionCreators<
   A extends ActionCreator<any>,
   B extends ActionCreator<any>
@@ -350,6 +391,10 @@ export function bindActionCreators<
 
 export function bindActionCreators<M extends ActionCreatorsMapObject>(actionCreators: M, dispatch: Dispatch<any>): M;
 
+
+/**
+ * 这个类型暂时看不懂 
+ */
 export function bindActionCreators<
   M extends ActionCreatorsMapObject,
   N extends ActionCreatorsMapObject
