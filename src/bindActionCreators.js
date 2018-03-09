@@ -1,3 +1,6 @@
+//这是一个thunk。thunk是指有一些操作不被立即执行，也就是说准备好一个函数，
+//但是不只执行，默默等待着合适的时候被合适的人调用。
+//概念释义来自于欧阳继超的《函数式攻城指南》
 function bindActionCreator(actionCreator, dispatch) {
   return (...args) => dispatch(actionCreator(...args))
 }
