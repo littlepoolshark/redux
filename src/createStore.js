@@ -62,7 +62,7 @@ export default function createStore(reducer, preloadedState, enhancer) {
 
   function ensureCanMutateNextListeners() {
     if (nextListeners === currentListeners) {
-      nextListeners = currentListeners.slice()
+      nextListeners = currentListeners.slice()//someArray.slice(),即以不传参的方式调用slice的时候，目的是实现了数组的浅拷贝
     }
   }
 
